@@ -1,11 +1,15 @@
 #include <iostream>
 using namespace std;
 int printMenu();
+double accountbalance_test = 1523.75;
+double getAccountBalance();
+bool saveMoney(double moneyToSave);
+double updateAccountBalance(double newBalance);
 int main()
 {
     const string password = "2580";
     string pin = "";
-    double solde_db = 1523.75;
+    double solde_db = getAccountBalance();
     for (int i = 1; i <= 3; i++)
     {
         pin = "";
@@ -29,6 +33,21 @@ int main()
                 case 1:
                     cout << "Votre solde actuel est de " << solde_db << "€" << endl;
                     break;
+                case 2:
+                {
+                    double montant;
+                    cout << "Entrez le montant à déposer : ";
+                    cin >> montant;
+                    if (!saveMoney(montant))
+                    {
+                        cout << "Montant invalide. Le dépôt a échoué." << endl;
+                    }
+                    else
+                    {
+                        cout << "Dépôt réussi. Nouveau solde : " << getAccountBalance() << "€" << endl;
+                    }
+                    break;
+                }
 
                 default:
                     break;
@@ -51,4 +70,26 @@ int printMenu()
     cout << 4 << " Quitter" << endl;
     cout << "donnez votre Choix " << endl;
     return 0;
+}
+
+double getAccountBalance()
+{
+    return accountbalance_test;
+}
+double updateAccountBalance(double newBalance)
+{
+    accountbalance_test = newBalance;
+    return accountbalance_test;
+}
+
+bool saveMoney(double moneyToSave)
+{
+    if (moneyToSave < 0)
+    {
+        return false;
+    }
+    double solde_db = getAccountBalance();
+    solde_db += moneyToSave;
+    updateAccountBalance(solde_db);
+    return true;
 }
