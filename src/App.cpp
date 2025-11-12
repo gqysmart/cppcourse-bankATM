@@ -5,6 +5,7 @@ double accountbalance_test = 1523.75;
 double getAccountBalance();
 bool saveMoney(double moneyToSave);
 double updateAccountBalance(double newBalance);
+bool withdrawMoney(double moneyToWithdraw);
 int main()
 {
     const string password = "2580";
@@ -45,6 +46,21 @@ int main()
                     else
                     {
                         cout << "Dépôt réussi. Nouveau solde : " << getAccountBalance() << "€" << endl;
+                    }
+                    break;
+                }
+                case 3:
+                {
+                    double moneyToWithdraw;
+                    cout << "Entrez le montant à retirer : ";
+                    cin >> moneyToWithdraw;
+                    if (!withdrawMoney(moneyToWithdraw))
+                    {
+                        cout << "Solde insuffisant. Votre solde est de " << getAccountBalance() << "€" << endl;
+                    }
+                    else
+                    {
+                        cout << "Retrait accepté. Nouveau solde : " << getAccountBalance() << "€" << endl;
                     }
                     break;
                 }
@@ -90,6 +106,18 @@ bool saveMoney(double moneyToSave)
     }
     double solde_db = getAccountBalance();
     solde_db += moneyToSave;
+    updateAccountBalance(solde_db);
+    return true;
+}
+
+bool withdrawMoney(double moneyToWithdraw)
+{
+    double solde_db = getAccountBalance();
+    if (moneyToWithdraw < 0 || moneyToWithdraw > solde_db)
+    {
+        return false;
+    }
+    solde_db -= moneyToWithdraw;
     updateAccountBalance(solde_db);
     return true;
 }
