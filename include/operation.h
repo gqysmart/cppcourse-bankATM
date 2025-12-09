@@ -1,3 +1,4 @@
+#include <string>
 #ifndef ATM_OPERATION_H
 #define ATM_OPERATION_H
 
@@ -11,6 +12,7 @@ struct Operation
 {
     BankOperationsType type;
     double amount;
+    std::string datetime;
 };
 
 #endif // ATM_OPERATION_H

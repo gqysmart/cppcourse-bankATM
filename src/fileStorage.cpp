@@ -49,6 +49,7 @@ namespace ATM
             int type = 0;
             dataFile >> type >> op.amount;
             op.type = static_cast<BankOperationsType>(type);
+            dataFile >> op.datetime;
             operationHistory[i] = op;
             /* code */
         }
@@ -65,7 +66,9 @@ namespace ATM
         dataFile << operationCount << endl;
         for (int i = 0; i < operationCount; i++)
         {
-            dataFile << static_cast<int>(operationHistory[i].type) << " " << operationHistory[i].amount << endl;
+            dataFile << static_cast<int>(operationHistory[i].type) << " "
+                     << operationHistory[i].amount << " "
+                     << operationHistory[i].datetime << endl;
         }
         dataFile.close();
         return true;

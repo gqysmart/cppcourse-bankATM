@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "operation.h"
 #include "fileStorage.h"
+#include <ctime>
 
 using namespace std;
 using namespace ATM;
@@ -24,6 +25,8 @@ bool welcome_user(string &accountNo, double &balance, string &password_db,
                   Operation operationHistory[], int &loadedOperationsCount);
 bool do_service(string &accountNo, double &balance, string &password_db,
                 Operation operationHistory[], int &operationCount);
+string getCurrentDateTime();
+
 int main()
 {
     string accountNo = "00001";
@@ -162,7 +165,7 @@ bool do_service(string &accountNo, double &balance, string &password_db,
                 {
                     int index = (i) % MAX_COUNT_OPERATIONS;
                     string operationType = new_operation_history[index].type == BankOperationsType::DEPOSIT_MONEY ? "Dépôt" : "Retrait";
-                    cout << operationType << " de " << new_operation_history[index].amount << "€" << endl;
+                    cout << operationType << " de " << new_operation_history[index].amount << "€" << " " << new_operation_history[index].datetime << endl;
                 }
             }
             break;
@@ -355,4 +358,22 @@ void addOperationToHistory(Operation operationHistory[], int &operationCount, Ba
     // using ring buffer logic to store operations
     operationHistory[currentIndex].type = type;
     operationHistory[currentIndex].amount = amount;
+    operationHistory[currentIndex].datetime = getCurrentDateTime(); // Placeholder for datetime, can be set to current time if needed
+}
+
+string getCurrentDateTime()
+{
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+
+    char buffer[20];
+    snprintf(buffer, sizeof(buffer), "%04d-%02d-%02d %02d:%02d:%02d",
+             1900 + ltm->tm_year,
+             1 + ltm->tm_mon,
+             ltm->tm_mday,
+             ltm->tm_hour,
+             ltm->tm_min,
+             ltm->tm_sec);
+
+    return string(buffer);
 }
